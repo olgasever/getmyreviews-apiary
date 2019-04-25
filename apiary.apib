@@ -1,80 +1,141 @@
-FORMAT: 1A
-HOST: http://polls.apiblueprint.org/
-
-# get-me -all-my-reviews
-
-Polls is a simple API allowing consumers to view polls and vote in them.
-
-## Questions Collection [/questions]
-
-### List All Questions [GET]
-
-+ Response 200 (application/json)
-
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
-            }
-        ]
-
-### Create a New Question [POST]
-
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
-
-+ Request (application/json)
-
-        {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
-        }
-
-+ Response 201 (application/json)
-
-    + Headers
-
-            Location: /questions/2
-
-    + Body
-
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
-            }
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: Gas and Electricity Usage
+  description: Gives a real time current and previous months usage of Gas and Electricity Services   
+host: private-b4f96-energy1.apiary-mock.com
+basePath: /api
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /usage/current/month/4859634:
+    x-summary: Current Month 4859634
+    x-description: |
+        Returns gas and electricity usage of current month for the account number: 4859634. 
+    get:
+      responses:
+        200:
+          description: Gas & Electricity usage response for current month
+          examples:
+            application/json:
+                [
+        					{
+        						"account_number": "4859634",
+        						"name": "Darko",
+        						"gas_usage": "20,006 Btu",
+        						"gas_cost": "¥ 46,896",
+        						"electricity_usage": "3,430 kW",
+        						"electricity_cost": "¥ 12,932",
+        						"environment": "Japan 1"
+        					}
+        				]
+          schema:
+            $ref: '#/definitions/Usage'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    
+  /usage/last/month/4859634:
+    x-summary: Last Month 4859634
+    x-description: |
+        Returns gas and electricity usage of last month for the account number: 4859634. 
+    get:
+      responses:
+        200:
+          description: Gas & Electricity usage response for last month
+          examples:
+            application/json:
+                [
+        					{
+          					"account_number": "4859634",
+          					"name": "Darko",
+          					"gas_usage": "30,000 Btu",
+          					"gas_cost": "¥ 56,436",
+          					"electricity_usage": "2,920 kW",
+          					"electricity_cost": "¥ 8,210",
+          					"environment": "Japan 1"
+        					}
+        				]
+          schema:
+            $ref: '#/definitions/Usage'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'    
+  /usage/current/month/5845241:
+    x-summary: Current Month 5845241
+    x-description: |
+        Returns gas and electricity usage of current month for the account number: 5845241.     
+    get:
+      responses:
+        200:
+          description: Gas & Electricity usage response for current month
+          examples:
+            application/json:
+                [
+        					{
+        						"account_number": "5845241",
+        						"name": "John",
+        						"gas_usage": "45,200 Btu",
+        						"gas_cost": "¥ 73,295",
+        						"electricity_usage": "0 kW",
+        						"electricity_cost": "¥ 0",
+        						"environment": "Japan 1"
+        					}
+        				]
+          schema:
+            $ref: '#/definitions/Usage'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    
+  /usage/last/month/5845241:
+    x-summary: Last Month 5845241
+    x-description: |
+        Returns gas and electricity usage of last month for the account number: 5845241.    
+    get:
+      responses:
+        200:
+          description: Gas & Electricity usage response for last month
+          examples:
+            application/json:
+                [
+        					{
+          					"account_number": "5845241",
+          					"name": "John",
+          					"gas_usage": "923,100 Btu",
+          					"gas_cost": "¥ 453,332",
+          					"electricity_usage": "0 kW",
+          					"electricity_cost": "¥ 0",
+          					"environment": "Japan 1"
+        					}
+        				]
+          schema:
+            $ref: '#/definitions/Usage'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'                
+definitions:
+  Usage:
+    required:
+      - account_number
+    properties:
+      account_number:
+        type: string
+  Error:
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
